@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Icône du site (pour onglet + écran d'accueil) -->
+  <link rel="icon" href="https://cdn-icons-png.flaticon.com/512/69/69524.png">
+  <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/69/69524.png">
+
   <title>MuscuAcademy – Dashboard</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -377,7 +382,7 @@
 
       <!-- Pompes -->
       <div class="exercice-block">
-        <img class="exercice-img" src="https://images.unsplash.com/photo-1598966734799-fa1a95cf0124?auto=format&fit=crop&w=600&q=80" alt="Pompes au sol (Unsplash) [web:111]">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1598966734799-fa1a95cf0124?auto=format&fit=crop&w=600&q=80" alt="Pompes au sol (Unsplash)">
         <div class="exercice-content">
           <h3>Pompes (genoux ou complètes)</h3>
           <p><strong>Séries :</strong> 3×8–12 | <strong>Repos :</strong> 90s</p>
@@ -388,12 +393,12 @@
 
       <!-- Planche -->
       <div class="exercice-block">
-        <img class="exercice-img" src="https://images.unsplash.com/photo-1598986649112-3f24a0aa8b8d?auto=format&fit=crop&w=600&q=80" alt="Exercice de planche (Unsplash) [web:115]">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1598986649112-3f24a0aa8b8d?auto=format&fit=crop&w=600&q=80" alt="Exercice de planche (Unsplash)">
         <div class="exercice-content">
           <h3>Planche (gainage)</h3>
           <p><strong>Séries :</strong> 3×30s | <strong>Repos :</strong> 60s</p>
           <p><strong>Comment faire :</strong> Appui coudes/pieds, corps aligné, contracte abdos + fessiers, respiration calme.</p>
-          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche & mountain climbers</button>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche &amp; mountain climbers</button>
         </div>
       </div>
 
@@ -410,7 +415,7 @@
 
       <!-- Burpees -->
       <div class="exercice-block">
-        <img class="exercice-img" src="https://images.unsplash.com/photo-1597076537069-28c4e7e3f4b4?auto=format&fit=crop&w=600&q=80" alt="Burpees exercice (Unsplash) [web:109]">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1597076537069-28c4e7e3f4b4?auto=format&fit=crop&w=600&q=80" alt="Burpees exercice (Unsplash)">
         <div class="exercice-content">
           <h3>Burpees</h3>
           <p><strong>Séries :</strong> 3×10 | <strong>Repos :</strong> 90s</p>
@@ -426,7 +431,7 @@
           <h3>Mountain climbers</h3>
           <p><strong>Séries :</strong> 3×20/jambe | <strong>Repos :</strong> 60s</p>
           <p><strong>Comment faire :</strong> Position de planche, ramène un genou vers la poitrine puis alterne rapidement jambe gauche/jambe droite.</p>
-          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche & mountain climbers</button>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche &amp; mountain climbers</button>
         </div>
       </div>
 
@@ -485,7 +490,7 @@
     </div>
 
     <!-- NUTRITION -->
-    <div id="screen-nutrition" class="card" style="display:none;">
+    <div id="screen-nutrition" class="card" style="display:none%;">
       <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
       <h2 class="section-title">🍎 Nutrition simple (2500 cal/jour)</h2>
 
@@ -601,7 +606,7 @@
       v += 1;
       localStorage.setItem(VISITS_KEY, String(v));
     }
-    incrementVisits(); // [web:95][web:96]
+    incrementVisits();
 
     function showChoices() {
       ['choices','exercices','programme','nutrition','tracker','stats'].forEach(id => {
@@ -754,6 +759,9 @@
         moti.textContent = "Tu dépasses l’objectif, niveau “tryhard”.";
       }
     }
+
+    // Afficher le choix au chargement
+    showChoices();
   </script>
 </body>
 </html>
