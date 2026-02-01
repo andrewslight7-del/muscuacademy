@@ -1,0 +1,759 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuscuAcademy – Dashboard</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      line-height: 1.7;
+      background: radial-gradient(circle at top, #3b82f6 0, #0f172a 55%, #020617 100%);
+      color: #e5e7eb;
+      min-height: 100vh;
+    }
+    .container { max-width: 1200px; margin: 0 auto; padding: 30px 20px 60px; }
+
+    header {
+      text-align: center;
+      padding: 40px 20px 24px;
+    }
+    h1 {
+      font-size: 3em;
+      font-weight: 900;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+      text-shadow: 0 8px 30px rgba(15,23,42,0.9);
+    }
+    .subtitle {
+      font-size: 1.1em;
+      opacity: 0.9;
+      max-width: 650px;
+      margin: 0 auto;
+    }
+
+    .card {
+      background: linear-gradient(145deg, rgba(15,23,42,0.98), rgba(15,23,42,0.90));
+      border-radius: 24px;
+      padding: 24px 20px;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.7);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(148,163,184,0.15);
+      margin-bottom: 22px;
+      animation: floatIn 0.5s ease-out;
+    }
+
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(12px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #screen-choices { display: block; }
+    .choices-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+      margin-top: 18px;
+    }
+    .choice-btn {
+      background: radial-gradient(circle at top left, #22c55e, #15803d);
+      color: white;
+      border-radius: 18px;
+      padding: 18px 14px;
+      text-align: left;
+      font-size: 1.05em;
+      font-weight: 700;
+      cursor: pointer;
+      border: none;
+      transition: all 0.25s;
+      box-shadow: 0 16px 40px rgba(22,163,74,0.45);
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    .choice-btn span.label {
+      font-size: 0.85em;
+      opacity: 0.9;
+      font-weight: 500;
+    }
+    .choice-btn:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 20px 50px rgba(22,163,74,0.65);
+    }
+
+    .back-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 12px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(15,23,42,0.9);
+      color: #e5e7eb;
+      text-decoration: none;
+      font-weight: 600;
+      cursor: pointer;
+      border: 1px solid rgba(148,163,184,0.4);
+      font-size: 0.88em;
+    }
+
+    h2.section-title {
+      font-size: 1.8em;
+      margin-bottom: 10px;
+      color: #f9fafb;
+    }
+
+    .section-sub {
+      font-size: 0.9em;
+      color: #9ca3af;
+      margin-bottom: 10px;
+    }
+
+    .exercice-block {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 12px;
+      margin-bottom: 16px;
+      padding: 12px;
+      border-radius: 16px;
+      background: rgba(15,23,42,0.85);
+      border: 1px solid rgba(75,85,99,0.6);
+    }
+    .exercice-img {
+      width: 100%;
+      height: 100%;
+      max-height: 110px;
+      border-radius: 14px;
+      object-fit: cover;
+    }
+    .exercice-content h3 {
+      margin-bottom: 4px;
+      color: #e5e7eb;
+      font-size: 1.02em;
+    }
+    .exercice-content p {
+      font-size: 0.88em;
+      color: #d1d5db;
+    }
+    .video-btn {
+      display: inline-block;
+      margin-top: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: #dc2626;
+      color: #fee2e2;
+      font-size: 0.8em;
+      font-weight: 600;
+      text-decoration: none;
+      border: none;
+      cursor: pointer;
+    }
+
+    ul { margin-left: 20px; margin-bottom: 10px; font-size: 0.9em; }
+    ul li { margin-bottom: 3px; }
+
+    .tracker-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 14px;
+      margin-top: 10px;
+    }
+    .tracker-card {
+      background: rgba(15,23,42,0.9);
+      border-radius: 18px;
+      padding: 12px 12px 10px;
+      border: 1px solid rgba(75,85,99,0.8);
+    }
+    .tracker-card label {
+      font-weight: 600;
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9em;
+      color: #e5e7eb;
+    }
+    .tracker-card input {
+      width: 100%;
+      padding: 8px 9px;
+      border-radius: 10px;
+      border: 1px solid #4b5563;
+      font-size: 0.9em;
+      margin-bottom: 5px;
+      background: #020617;
+      color: #e5e7eb;
+    }
+    .tracker-card small {
+      color: #9ca3af;
+      font-size: 0.78em;
+    }
+    .save-btn {
+      margin-top: 12px;
+      background: linear-gradient(45deg, #22c55e, #16a34a);
+      color: white;
+      border: none;
+      padding: 10px 14px;
+      border-radius: 999px;
+      font-weight: 700;
+      cursor: pointer;
+      width: 100%;
+      font-size: 0.95em;
+      box-shadow: 0 18px 45px rgba(22,163,74,0.55);
+      transition: all 0.25s;
+    }
+    .save-btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 22px 55px rgba(22,163,74,0.75);
+    }
+
+    .summary {
+      margin-top: 16px;
+      padding: 14px 14px 12px;
+      border-radius: 18px;
+      background: rgba(15,118,110,0.12);
+      border: 1px solid rgba(45,212,191,0.6);
+      font-size: 0.92em;
+      color: #e5e7eb;
+    }
+
+    .summary-title {
+      font-weight: 700;
+      margin-bottom: 4px;
+      color: #a5f3fc;
+      font-size: 0.88em;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .highlight {
+      font-weight: 700;
+      color: #4ade80;
+    }
+
+    .badge-date {
+      font-size: 0.78em;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .stats-header {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+      margin-bottom: 14px;
+    }
+    .stat-main {
+      background: rgba(15,23,42,0.95);
+      border-radius: 18px;
+      padding: 14px;
+      border: 1px solid rgba(59,130,246,0.7);
+    }
+    .stat-main-title {
+      font-size: 0.85em;
+      color: #93c5fd;
+      margin-bottom: 6px;
+    }
+    .stat-main-value {
+      font-size: 1.7em;
+      font-weight: 900;
+      margin-bottom: 4px;
+    }
+    .stat-main-note {
+      font-size: 0.85em;
+      color: #9ca3af;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(31,41,55,0.9);
+      overflow: hidden;
+      margin-top: 6px;
+      margin-bottom: 4px;
+    }
+    .progress-fill {
+      height: 100%;
+      width: 0%;
+      border-radius: 999px;
+      background: linear-gradient(90deg, #22c55e, #4ade80);
+      transition: width 0.25s ease-out;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .stat-box {
+      background: rgba(15,23,42,0.9);
+      border-radius: 16px;
+      padding: 12px;
+      border: 1px solid rgba(55,65,81,0.8);
+      font-size: 0.9em;
+    }
+    .stat-label {
+      font-size: 0.8em;
+      color: #9ca3af;
+      margin-bottom: 4px;
+    }
+    .stat-value {
+      font-size: 1.2em;
+      font-weight: 800;
+      color: #e5e7eb;
+    }
+
+    .badge-level {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 999px;
+      font-size: 0.78em;
+      margin-left: 6px;
+      border: 1px solid rgba(251,191,36,0.8);
+      color: #facc15;
+      background: rgba(120,53,15,0.4);
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 2.2em; }
+      .card { padding: 18px 14px; }
+      .choice-btn { padding: 16px 12px; }
+      .exercice-block { grid-template-columns: 1fr; }
+      .exercice-img { max-height: 160px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>🏋️ MuscuAcademy</h1>
+      <p class="subtitle">Exercices avec images + vidéos YouTube, programme, nutrition, suivi et dashboard admin.</p>
+    </header>
+
+    <!-- ÉCRAN CHOIX -->
+    <div id="screen-choices" class="card">
+      <h2 class="section-title">Centre de contrôle</h2>
+      <p class="section-sub">Choisis ce que tu veux afficher.</p>
+      <div class="choices-grid">
+        <button class="choice-btn" onclick="showScreen('exercices')">
+          🏋️ Exercices
+          <span class="label">Exercices avec image + bouton vidéo YouTube.</span>
+        </button>
+        <button class="choice-btn" onclick="showScreen('programme')">
+          💪 Programme
+          <span class="label">3 séances par semaine, full body.</span>
+        </button>
+        <button class="choice-btn" onclick="showScreen('nutrition')">
+          🍎 Nutrition
+          <span class="label">Exemple de journée simple à suivre.</span>
+        </button>
+        <button class="choice-btn" onclick="showScreen('tracker')">
+          📊 Suivi journalier
+          <span class="label">Eau, temps d’entraînement, séances.</span>
+        </button>
+        <button class="choice-btn" onclick="showScreen('stats')">
+          🧠 Admin / Score
+          <span class="label">Vue tableau de bord avec ton niveau.</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- EXERCICES + IMAGES + VIDÉOS -->
+    <div id="screen-exercices" class="card" style="display:none;">
+      <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
+      <h2 class="section-title">🏋️ Exercices (images + vidéos)</h2>
+      <p class="section-sub">Tu peux regarder l’image, lire le texte, puis cliquer sur la vidéo pour voir le mouvement.</p>
+
+      <!-- Squat -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?auto=format&fit=crop&w=600&q=80" alt="Squat en salle de sport (Unsplash)">
+        <div class="exercice-content">
+          <h3>Squat poids du corps</h3>
+          <p><strong>Séries :</strong> 3×15 | <strong>Repos :</strong> 90s</p>
+          <p><strong>Comment faire :</strong> Pieds largeur épaules, descends jusqu'aux cuisses parallèles au sol, dos droit, genoux suivent les orteils.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=YaXPRqUwItQ','_blank')">Voir la vidéo squat</button>
+        </div>
+      </div>
+
+      <!-- Pompes -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1598966734799-fa1a95cf0124?auto=format&fit=crop&w=600&q=80" alt="Pompes au sol (Unsplash) [web:111]">
+        <div class="exercice-content">
+          <h3>Pompes (genoux ou complètes)</h3>
+          <p><strong>Séries :</strong> 3×8–12 | <strong>Repos :</strong> 90s</p>
+          <p><strong>Comment faire :</strong> Corps droit comme une planche, descends poitrine proche du sol, coudes à 45° du corps.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=IODxDxX7oi4','_blank')">Voir la vidéo pompes</button>
+        </div>
+      </div>
+
+      <!-- Planche -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1598986649112-3f24a0aa8b8d?auto=format&fit=crop&w=600&q=80" alt="Exercice de planche (Unsplash) [web:115]">
+        <div class="exercice-content">
+          <h3>Planche (gainage)</h3>
+          <p><strong>Séries :</strong> 3×30s | <strong>Repos :</strong> 60s</p>
+          <p><strong>Comment faire :</strong> Appui coudes/pieds, corps aligné, contracte abdos + fessiers, respiration calme.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche & mountain climbers</button>
+        </div>
+      </div>
+
+      <!-- Fentes -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1599058918144-1a8b2c92c5be?auto=format&fit=crop&w=600&q=80" alt="Fente avant en salle (Unsplash)">
+        <div class="exercice-content">
+          <h3>Fentes avant</h3>
+          <p><strong>Séries :</strong> 3×10/jambe | <strong>Repos :</strong> 90s</p>
+          <p><strong>Comment faire :</strong> Grand pas en avant, genou arrière proche du sol, buste droit, genou avant ne dépasse pas trop les orteils.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=QOVaHwm-Q6U','_blank')">Voir la vidéo fentes</button>
+        </div>
+      </div>
+
+      <!-- Burpees -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1597076537069-28c4e7e3f4b4?auto=format&fit=crop&w=600&q=80" alt="Burpees exercice (Unsplash) [web:109]">
+        <div class="exercice-content">
+          <h3>Burpees</h3>
+          <p><strong>Séries :</strong> 3×10 | <strong>Repos :</strong> 90s</p>
+          <p><strong>Comment faire :</strong> Depuis la position debout, descends au sol, fais une pompe, remonte et saute en l’air bras levés.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=tZCbNLWSXzM','_blank')">Voir la vidéo burpees</button>
+        </div>
+      </div>
+
+      <!-- Mountain climbers -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1599058917212-d750089bc07e?auto=format&fit=crop&w=600&q=80" alt="Mountain climbers (Unsplash)">
+        <div class="exercice-content">
+          <h3>Mountain climbers</h3>
+          <p><strong>Séries :</strong> 3×20/jambe | <strong>Repos :</strong> 60s</p>
+          <p><strong>Comment faire :</strong> Position de planche, ramène un genou vers la poitrine puis alterne rapidement jambe gauche/jambe droite.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=PaR6Z7D5fl4','_blank')">Vidéo planche & mountain climbers</button>
+        </div>
+      </div>
+
+      <!-- Superman dos -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1607962837359-5e7e72b696ac?auto=format&fit=crop&w=600&q=80" alt="Exercice dos au sol (Unsplash)">
+        <div class="exercice-content">
+          <h3>Superman (dos)</h3>
+          <p><strong>Séries :</strong> 3×12 | <strong>Repos :</strong> 60s</p>
+          <p><strong>Comment faire :</strong> Allongé sur le ventre, lève bras et jambes en même temps, pause en haut puis redescends doucement.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=z6PJMT2y8GQ','_blank')">Voir la vidéo superman</button>
+        </div>
+      </div>
+
+      <!-- Gainage latéral -->
+      <div class="exercice-block">
+        <img class="exercice-img" src="https://images.unsplash.com/photo-1583454110551-21f2fa2afe61?auto=format&fit=crop&w=600&q=80" alt="Gainage latéral (Unsplash)">
+        <div class="exercice-content">
+          <h3>Gainage latéral</h3>
+          <p><strong>Séries :</strong> 3×20s/côté | <strong>Repos :</strong> 45s</p>
+          <p><strong>Comment faire :</strong> Appui sur un coude et le côté du pied, corps aligné, maintiens la position sans laisser tomber les hanches.</p>
+          <button class="video-btn" onclick="window.open('https://www.youtube.com/watch?v=K2VljzCC16g','_blank')">Voir la vidéo gainage latéral</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- PROGRAMME -->
+    <div id="screen-programme" class="card" style="display:none;">
+      <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
+      <h2 class="section-title">💪 Programme Full Body (3x/semaine)</h2>
+      <p class="section-sub">Sur 8 semaines, à faire à la maison, sans matériel.</p>
+
+      <h3>🏠 Séance A (Lundi)</h3>
+      <ul>
+        <li>Squat poids du corps – 3×15</li>
+        <li>Pompes genoux – 3×12</li>
+        <li>Planche – 3×30s</li>
+        <li>Fentes avant – 3×10/jambe</li>
+      </ul>
+
+      <h3>🏠 Séance B (Mercredi)</h3>
+      <ul>
+        <li>Burpees – 3×10</li>
+        <li>Mountain climbers – 3×20/jambe</li>
+        <li>Superman dos – 3×12</li>
+        <li>Gainage latéral – 3×20s/côté</li>
+      </ul>
+
+      <h3>🏠 Séance C (Vendredi)</h3>
+      <ul>
+        <li>Squat jump – 3×12</li>
+        <li>Pompes normales – 3×8–10</li>
+        <li>Planche dynamique – 3×25s</li>
+        <li>Étirements légers – 5 min</li>
+      </ul>
+    </div>
+
+    <!-- NUTRITION -->
+    <div id="screen-nutrition" class="card" style="display:none;">
+      <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
+      <h2 class="section-title">🍎 Nutrition simple (2500 cal/jour)</h2>
+
+      <h3>Objectifs</h3>
+      <ul>
+        <li>Avoir assez de protéines pour construire du muscle.</li>
+        <li>Avoir de l’énergie pour tenir les séances.</li>
+        <li>Rester simple à suivre tous les jours.</li>
+      </ul>
+
+      <h3>Exemple de journée</h3>
+      <ul>
+        <li><strong>Petit-déj :</strong> 4 œufs + 100g avoine + 1 banane (~700 cal)</li>
+        <li><strong>Déjeuner :</strong> 200g poulet + 150g riz + légumes (~800 cal)</li>
+        <li><strong>Collation :</strong> 400g fromage blanc 0% + 30g noix (~500 cal)</li>
+        <li><strong>Dîner :</strong> 200g poisson + patate douce + huile olive (~500 cal)</li>
+      </ul>
+    </div>
+
+    <!-- SUIVI JOURNALIER -->
+    <div id="screen-tracker" class="card" style="display:none;">
+      <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
+      <h2 class="section-title">📊 Suivi journalier</h2>
+      <p class="section-sub">Les données sont gardées dans ce navigateur (localStorage).</p>
+
+      <div class="tracker-grid">
+        <div class="tracker-card">
+          <label for="waterLiters">💧 Eau bue aujourd’hui (en litres)</label>
+          <input type="number" id="waterLiters" min="0" step="0.1" placeholder="Ex: 2.5">
+        </div>
+
+        <div class="tracker-card">
+          <label for="trainingMinutes">⏱️ Temps d’entraînement aujourd’hui (minutes)</label>
+          <input type="number" id="trainingMinutes" min="0" step="5" placeholder="Ex: 45">
+        </div>
+
+        <div class="tracker-card">
+          <label>📅 Séances faites cette semaine</label>
+          <p style="font-size:1.8em; font-weight:800; margin:5px 0;">
+            <span id="sessionsWeekDisplay">0</span> / 3
+          </p>
+          <div style="display:flex; gap:10px; margin-bottom:8px;">
+            <button type="button" onclick="changeSessions(1)" class="save-btn" style="padding:7px 0; box-shadow:none;">+1 séance</button>
+            <button type="button" onclick="changeSessions(-1)" class="back-btn" style="flex:1; justify-content:center; padding:7px 0;">-1</button>
+          </div>
+        </div>
+      </div>
+
+      <button class="save-btn" onclick="updateSummary()">Mettre à jour l’eau + temps et sauvegarder</button>
+
+      <div class="summary" id="summaryBox">
+        <div class="summary-title">Résumé du jour</div>
+        <p>Entre tes infos ci-dessus puis clique sur le bouton pour sauver.</p>
+        <div class="badge-date" id="summaryDate"></div>
+      </div>
+    </div>
+
+    <!-- DASHBOARD ADMIN / SCORE -->
+    <div id="screen-stats" class="card" style="display:none;">
+      <button class="back-btn" onclick="showChoices()">← Retour aux choix</button>
+      <h2 class="section-title">🧠 Dashboard admin / Score</h2>
+      <p class="section-sub">Vue rapide de ton niveau : séances, hydratation, visites.</p>
+
+      <div class="stats-header">
+        <div class="stat-main">
+          <div class="stat-main-title">Objectif séances semaine</div>
+          <div class="stat-main-value">
+            <span id="statSessionsMain">0/3</span>
+            <span id="statLevelBadge" class="badge-level">Niveau : Débutant</span>
+          </div>
+          <div class="progress-bar">
+            <div id="progressSessions" class="progress-fill"></div>
+          </div>
+          <div class="stat-main-note" id="statMotivation">
+            Commence doucement, remplis ton suivi pour voir ta progression.
+          </div>
+        </div>
+        <div class="stat-main">
+          <div class="stat-main-title">Hydratation aujourd’hui</div>
+          <div class="stat-main-value" id="statWaterMain">0 L</div>
+          <div class="progress-bar">
+            <div id="progressWater" class="progress-fill" style="background:linear-gradient(90deg,#0ea5e9,#38bdf8);"></div>
+          </div>
+          <div class="stat-main-note" id="statWaterNote">
+            Objectif : entre 2L et 3L par jour.
+          </div>
+        </div>
+      </div>
+
+      <div class="stats-grid">
+        <div class="stat-box">
+          <div class="stat-label">Temps d’entraînement aujourd’hui</div>
+          <div class="stat-value" id="statMinutes">0 min</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Nombre de visites sur ce navigateur</div>
+          <div class="stat-value" id="statVisits">0</div>
+        </div>
+        <div class="stat-box">
+          <div class="stat-label">Dernière mise à jour du suivi</div>
+          <div class="stat-value" id="statLastUpdate">–</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const STORAGE_KEY = 'muscuacademy_tracker';
+    const VISITS_KEY = 'muscuacademy_visits';
+
+    function incrementVisits() {
+      let v = parseInt(localStorage.getItem(VISITS_KEY) || '0', 10);
+      v += 1;
+      localStorage.setItem(VISITS_KEY, String(v));
+    }
+    incrementVisits(); // [web:95][web:96]
+
+    function showChoices() {
+      ['choices','exercices','programme','nutrition','tracker','stats'].forEach(id => {
+        document.getElementById('screen-' + id).style.display = id === 'choices' ? 'block' : 'none';
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showScreen(which) {
+      ['choices','exercices','programme','nutrition','tracker','stats'].forEach(id => {
+        document.getElementById('screen-' + id).style.display = 'none';
+      });
+      document.getElementById('screen-' + which).style.display = 'block';
+
+      if (which === 'tracker') loadTracker();
+      if (which === 'stats') loadStats();
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateSummary() {
+      const water = parseFloat(document.getElementById('waterLiters').value) || 0;
+      const minutes = parseInt(document.getElementById('trainingMinutes').value) || 0;
+
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      const sessions = typeof stored.sessions === 'number' ? stored.sessions : 0;
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('fr-CA');
+
+      const data = { water, minutes, sessions, date: dateStr };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+
+      applySummary(data);
+    }
+
+    function applySummary(data) {
+      const { water, minutes, sessions, date } = data;
+
+      const disp = document.getElementById('sessionsWeekDisplay');
+      if (disp) disp.textContent = sessions ?? 0;
+
+      let waterText = '';
+      if (!water) waterText = "Tu n'as rien entré pour l'eau.";
+      else if (water < 2) waterText = "Hydratation : " + water + "L – un peu faible, vise plutôt 2–3L.";
+      else if (water <= 3) waterText = "Hydratation : " + water + "L – tu es dans la zone idéale.";
+      else waterText = "Hydratation : " + water + "L – très bien, mais pas besoin de dépasser souvent 3L.";
+
+      let trainingText = '';
+      if (!minutes) trainingText = "Pas d’entraînement enregistré aujourd’hui.";
+      else if (minutes < 30) trainingText = "Entraînement : " + minutes + " minutes – c’est déjà quelque chose, continue.";
+      else trainingText = "Entraînement : " + minutes + " minutes – super séance.";
+
+      let sessionsText = '';
+      if (!sessions) sessionsText = "Tu n'as pas encore commencé tes séances cette semaine.";
+      else if (sessions < 3) sessionsText = "Séances cette semaine : " + sessions + "/3 – tu es en route.";
+      else if (sessions === 3) sessionsText = "Séances cette semaine : " + sessions + "/3 – objectif de la semaine atteint.";
+      else sessionsText = "Séances cette semaine : " + sessions + "/3 – tu fais plus que le minimum, bravo.";
+
+      const summaryHtml = `
+        <div class="summary-title">Résumé du jour</div>
+        <p><span class="highlight">${waterText}</span></p>
+        <p>${trainingText}</p>
+        <p>${sessionsText}</p>
+      `;
+      document.getElementById('summaryBox').innerHTML = summaryHtml;
+      document.getElementById('summaryDate').textContent = date ? "Dernière mise à jour : " + date : "";
+    }
+
+    function changeSessions(delta) {
+      const stored = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+      let sessions = typeof stored.sessions === 'number' ? stored.sessions : 0;
+      sessions += delta;
+      if (sessions < 0) sessions = 0;
+      if (sessions > 7) sessions = 7;
+
+      const today = new Date();
+      const dateStr = today.toLocaleDateString('fr-CA');
+
+      const water = stored.water || 0;
+      const minutes = stored.minutes || 0;
+
+      const data = { water, minutes, sessions, date: dateStr };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      applySummary(data);
+    }
+
+    function loadTracker() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          if (typeof data === 'object') {
+            document.getElementById('waterLiters').value = data.water ?? '';
+            document.getElementById('trainingMinutes').value = data.minutes ?? '';
+            document.getElementById('sessionsWeekDisplay').textContent = data.sessions ?? 0;
+            applySummary(data);
+            return;
+          }
+        } catch(e) {}
+      }
+      document.getElementById('summaryBox').innerHTML = `
+        <div class="summary-title">Résumé du jour</div>
+        <p>Entre tes infos ci-dessus puis clique sur le bouton pour sauver.</p>
+      `;
+      document.getElementById('summaryDate').textContent = "";
+      document.getElementById('sessionsWeekDisplay').textContent = 0;
+    }
+
+    function loadStats() {
+      const visits = parseInt(localStorage.getItem(VISITS_KEY) || '0', 10);
+      document.getElementById('statVisits').textContent = visits;
+
+      const stored = localStorage.getItem(STORAGE_KEY);
+      let sessions = 0, water = 0, minutes = 0, date = '–';
+      if (stored) {
+        try {
+          const data = JSON.parse(stored);
+          sessions = data.sessions ?? 0;
+          water = data.water ?? 0;
+          minutes = data.minutes ?? 0;
+          date = data.date ?? '–';
+        } catch(e) {}
+      }
+
+      document.getElementById('statSessionsMain').textContent = sessions + '/3';
+      document.getElementById('statMinutes').textContent = minutes + ' min';
+      document.getElementById('statLastUpdate').textContent = date;
+      document.getElementById('statWaterMain').textContent = water + ' L';
+
+      const percentSessions = Math.min(100, (sessions / 3) * 100);
+      document.getElementById('progressSessions').style.width = percentSessions + '%';
+
+      const percentWater = Math.min(100, (water / 3) * 100);
+      document.getElementById('progressWater').style.width = percentWater + '%';
+
+      const badge = document.getElementById('statLevelBadge');
+      const moti = document.getElementById('statMotivation');
+      if (sessions === 0) {
+        badge.textContent = 'Niveau : Débutant';
+        moti.textContent = "Commence par une première séance cette semaine.";
+      } else if (sessions < 3) {
+        badge.textContent = 'Niveau : En route';
+        moti.textContent = "Tu avances, continue pour atteindre les 3 séances.";
+      } else if (sessions === 3) {
+        badge.textContent = 'Niveau : Objectif atteint';
+        moti.textContent = "Tu as validé la semaine, excellent travail.";
+      } else {
+        badge.textContent = 'Niveau : Hardcore';
+        moti.textContent = "Tu dépasses l’objectif, niveau “tryhard”.";
+      }
+    }
+  </script>
+</body>
+</html>
